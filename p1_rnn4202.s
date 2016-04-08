@@ -75,11 +75,11 @@ _sum:
         MOV PC, LR    
      
 _sub:
-	ADD R0, R1, R3         
+	SUB R0, R1, R3         
         MOV PC, LR     
  
 _mul        
-        ADD R0,R1, R3  
+        MUL R0,R1, R3  
         MOV PC, LR   
      
 _max:

@@ -21,7 +21,7 @@
 	MOV R3, R6
 	BL _compare
 	MOV R1, R0
-    	BL _printf   
+    	BL _print_val   
       	B main
 
 _prompt1 :
@@ -78,7 +78,7 @@ _sub:
 	SUB R0, R1, R3         
         MOV PC, LR     
  
-_mul        
+_mul:       
         MUL R0,R1, R3  
         MOV PC, LR   
      

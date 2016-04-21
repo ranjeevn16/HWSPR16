@@ -9,9 +9,9 @@ main:
     MOV R1, R4
     MOV R2, R5                    
     BL  _count_partitions  
-    MOV R1, R6            
+    MOV R1, R5            
     MOV R2, R4           
-    MOV R3, R5            
+    MOV R3, R0            
     BL  _printf             
     B   main               
 _scanf:

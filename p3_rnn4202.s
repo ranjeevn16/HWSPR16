@@ -46,31 +46,32 @@ _generate:
 	B _generate	
 	
 _printarrays:
-	MOV R0, #0
+	_readloop:
+	CMP R0, #0
 	PUSHEQ {LR}
 	CMP R0, #20		@ check to see if we are done iterating
 	POPEQ {PC}		@ exit loop if done
 	LDR R1, =array_a	@ get address of a
+	LDR R3, =array_b	
 	LSL R2, R0, #2		@ multiply index * 4 to get array offset
+	LSL R5, R0, #2
 	ADD R2, R1, R2		@ R2 now has the element address
-	LDR R3, =array_b	@ get addres of b
-	LSL R5, R0, #2		@ multiply index * 4 to get array offset
-        ADD R5, R3, R5		@ R5 now has the element address
-	LDR R1, [R2]		@ loads the array at address a[i]
-	LDR R3, [R5]		@loads array at address b[i]
+	ADD R5, R3, R5
+	LDR R1, [R2]		@ read the array at address
+	LDR R3, [R5]
 	PUSH {R0} 		@ backup register before printf
 	PUSH {R1}		@ backup register before printf
 	PUSH {R2} 		@ backup register before printf
-	PUSH {R3}   		@ backup register before printf
-	PUSH {R5}		@ backup register before printf
+	PUSH {R3}
+	PUSH {R5}
 	MOV R2, R1		@ move array value to R2 for printf
 	MOV R1, R0		@ move array index to R1 for printf
-	BL _printA		@ branch to _printf procedure with return
-	POP {R5}		@ restore register
-	POP {R3}  		@ restore register
-	POP {R2}		@ restore register
-	POP {R1}		@ restore register
-	POP {R0}		@ restore register
+	BL _printfA		@ branch to _printf procedure with return
+	POP {R5}
+	POP {R3}
+	POP {R2}
+	POP {R1}
+	POP {R0}
 	PUSH {R0}
 	PUSH {R1}
 	PUSH {R2}
@@ -78,16 +79,14 @@ _printarrays:
 	PUSH {R5}
 	MOV R2, R3
 	MOV R1, R0
-	BL _printB
+	BL _printfB
 	POP {R5}
 	POP {R3}
-	POP {R2}		
-	POP {R1}	
-	POP {R0}		
+	POP {R2}		@ restore register
+	POP {R1}		@ restore register
+	POP {R0}		@ restore register
 	ADD R0, R0, #1		@ increment index
-	B _readloop		@ branch to next loop iteration
-	
-	
+	B _printarrays to next loop iteration
 _sortorder:
 	PUSH {LR}
 loop1:

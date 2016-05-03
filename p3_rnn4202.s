@@ -1,9 +1,13 @@
- .global main
+@ Name : Ranjeev Neurekar
+@ID:1001104202
+@ Program #3 to generate array and dispay in ascending order
+
+        .global main
 	.func main
 	
 main:
 	BL _scanf
-	MOV R4, R0		@ inout value n will be storedin R4
+	MOV R4, R0		@ input value n will be stored in R4
 	MOV R0, #0		@ initialize value of i to 0 in R0
 	BL _generate
 	MOV R0, #0		@ initialize value of i to 0 in R0	
@@ -53,24 +57,24 @@ _printarrays:
 	LDR R1, =array_a	@ get address of a
 	LDR R3, =array_b	
 	LSL R2, R0, #2		@ multiply index * 4 to get array offset
-	LSL R5, R0, #2
+	LSL R5, R0, #2		@ multiply index * 4 to get array offset
 	ADD R2, R1, R2		@ R2 now has the element address
-	ADD R5, R3, R5
+	ADD R5, R3, R5		@ R5 now has the element address
 	LDR R1, [R2]		@ read the array at address
-	LDR R3, [R5]
+	LDR R3, [R5]		@ read the array at address
 	PUSH {R0} 		@ backup register before printf
 	PUSH {R1}		@ backup register before printf
 	PUSH {R2} 		@ backup register before printf
-	PUSH {R3}
-	PUSH {R5}
+	PUSH {R3}	        @ backup register before printf
+	PUSH {R5}		@ backup register before printf
 	MOV R2, R1		@ move array value to R2 for printf
 	MOV R1, R0		@ move array index to R1 for printf
-	BL _printfA		@ branch to _printf procedure with return
-	POP {R5}
-	POP {R3}
-	POP {R2}
-	POP {R1}
-	POP {R0}
+	BL _printA		@ branch to _printA 
+	POP {R5}		@ restore register
+	POP {R3}		@ restore register
+	POP {R2}		@ restore register
+	POP {R1}		@ restore register
+	POP {R0}		@ restore register
 	PUSH {R0}
 	PUSH {R1}
 	PUSH {R2}
@@ -78,14 +82,14 @@ _printarrays:
 	PUSH {R5}
 	MOV R2, R3
 	MOV R1, R0
-	BL _printfB
+	BL _printB
 	POP {R5}
 	POP {R3}
-	POP {R2}		@ restore register
-	POP {R1}		@ restore register
-	POP {R0}		@ restore register
+	POP {R2}		
+	POP {R1}		
+	POP {R0}	
 	ADD R0, R0, #1		@ increment index
-	B _printarrays to next loop iteration
+	B _printarrays
 _sortorder:
 	PUSH {LR}
 loop1:

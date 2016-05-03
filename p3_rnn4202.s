@@ -46,7 +46,6 @@ _generate:
 	B _generate	
 	
 _printarrays:
-	_readloop:
 	CMP R0, #0
 	PUSHEQ {LR}
 	CMP R0, #20		@ check to see if we are done iterating

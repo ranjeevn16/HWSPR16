@@ -1,6 +1,8 @@
-
-.global main 
-.func main
+@Name :Ranjeev Neurekar
+@ID :1001104202
+@Exam Program
+     .global main 
+     .func main
 
 main:
     MOV R0, #0
@@ -9,10 +11,9 @@ main:
     MOV R8, R0
     LDR R0, =printf_str
     MOV R1, R8
-    BL _printMyArray
+    BL _printarray
     MOV R1, R0
-    BL _printAdd
-    BL _min
+    BL _printsum
     BL _max
     BL _exit
 
@@ -31,50 +32,27 @@ _generate:
     ADD R4, R4, #1    
     B writeloop
 _max:
-	PUSH {LR}
-	MOV R0,#0
-	LDR R1,=array_a
-	LSL R2,R0,#2
-	ADD R2,R2,R1
-	LDR R2,[R2]
-maxloop:
+    PUSH {LR}
+    MOV R0,#0
+    LDR R1,=array_a
+    LSL R2,R0,#2
+    ADD R2,R2,R1
+    LDR R2,[R2]	
+loop:
 	ADD R0,R0,#1
 	CMP R0,#10
-	BEQ maxdone
+	BEQ ldone
 	LSL R3,R0,#2
 	ADD R3,R1,R3
 	LDR R3,[R3]
 	CMP R3,R2
-	MOVGT R2,R3
-	B maxloop
-maxdone:
+	MOVGT R2,R
+	B loop
+ldone:
 	MOV R1,R2
-	BL _printf_max
-	POP {PC}
-
-_min:
-	PUSH {LR}
-	MOV R0,#0
-	LDR R1,=array_a
-	LSL R2,R0,#2
-	ADD R2,R2,R1
-	LDR R2,[R2]
-minloop:
-	ADD R0,R0,#1
-	CMP R0,#10
-	BEQ mindone
-	LSL R3,R0,#2
-	ADD R3,R1,R3
-	LDR R3,[R3]
-	CMP R3,R2
-	MOVLT R2,R3
-	B minloop
-mindone:
-	MOV R1,R2
-	BL _printf_min
+	BL _printmax
 	POP {PC}	
-
-_printMyArray:
+_printarray:
     PUSH {LR}
     MOV R0, #0              @ i = 0
     MOV R8, #0              @ sum = 0
@@ -115,7 +93,6 @@ _scanf:
     LDR R0, [SP]            @ load value at SP into R0
     ADD SP, SP, #4          @ restore the stack pointer
     POP {PC}
-
 _printf:
     PUSH {LR}               @ store LR since printf call overwrites
     LDR R0, =printf_str     @ R0 contains formatted string address
@@ -124,35 +101,29 @@ _printf:
     MOV R3, R3
     BL printf               @ call printf
     POP {PC}                @ return
-_printAdd:
+_printsum:
     PUSH {LR}               @ store LR since printf call overwrites
-    LDR R0, =printf_Add     @ R0 contains formatted string address
+    LDR R0, =printf_sum     @ R0 contains formatted string address
     MOV R1, R1              @
     BL printf               @ call printf
     POP {PC}                @ return
-
-
-_printf_min:
+_printmin:
     PUSH {LR}               @ store the return address
-    LDR R0, =printf_min_str @ R0 contains formatted string address
+    LDR R0, =printf_min @ R0 contains formatted string address
     BL printf               @ call printf
     POP {PC}                @ restore the stack pointer and return
-
-_printf_max:
+_printmax:
     PUSH {LR}               @ store the return address
-    LDR R0, =printf_max_str @ R0 contains formatted string address
+    LDR R0, =printf_max @ R0 contains formatted string address
     BL printf               @ call printf
     POP {PC}                @ restore the stack pointer and return
-      
-
-
 .data
 
 .balign 4
-array_a:         .skip     40
-printf_str:     .asciz    "array_a[%d] = %d\n"
-printf_Add:     .asciz    "sum = %d\n"
-printf_min_str: .asciz		"minimum = %d\n"
-printf_max_str: .asciz		"maximum = %d\n"
+array_a:         .skip    200
+printf_str:     .asciz    "array_a[%d] = %d \n"
+printf_sum:     .asciz    "sum = %d \n"
+printf_min:     .asciz    "minimum = %d \n"
+printf_max:     .asciz	  "maximum = %d \n"
 format_str:     .asciz    "%d"
 exit_str:       .ascii    "Terminate program.\n"
